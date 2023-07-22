@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Custom style for hint appearance -->
+    <style name="TextInputHintStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Customize the hint text appearance -->
+        <item name="android:textColorHint">@color/color_primary</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+
+
+    </style>
+
+    <!-- Custom style for error appearance -->
+    <style name="TextInputErrorStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Customize the error text appearance -->
+        <item name="android:colorError" tools:targetApi="o">@color/red</item>
+        <!-- Add other customizations as needed -->
+    </style>
+
+    <!-- Custom style for the overall TextInputLayout appearance -->
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Customize the outline box appearance -->
+        <item name="android:color">@color/color_primary</item>
+
+        <item name="borderRound">@dimen/dimen_4</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="errorEnabled">true</item>
+        <item name="errorTextColor">@color/red</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="hintTextColor">@color/color_primary</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="boxStrokeColor">@color/color_primary</item>
+        <item name="boxStrokeWidth">@dimen/dimen_2</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="boxBackgroundMode">outline</item>
+
+
+    </style>
+
+</resources>

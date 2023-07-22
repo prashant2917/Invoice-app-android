@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextInputErrorStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Customize the error text appearance -->
+        <item name="android:colorError">@color/red</item>
+
+        <!-- Add other customizations as needed -->
+    </style>
+</resources>
