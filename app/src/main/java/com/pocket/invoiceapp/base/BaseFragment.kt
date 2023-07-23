@@ -19,13 +19,6 @@ abstract class BaseFragment: Fragment() {
       navController = navHostFragment.navController
    }
 
-   fun showToolbar() {
-
-   }
-
-   fun hideToolBar() {
-      activity.baseContext.
-   }
 
 
 }
