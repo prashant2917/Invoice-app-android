@@ -1,4 +1,8 @@
 package com.pocket.invoiceapp.base
 
-class BaseUser {
+open class BaseUser {
+    open var userId: String = ""
+    open var name: String = ""
+    open var password: String = ""
+
 }

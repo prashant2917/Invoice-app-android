@@ -1,4 +1,7 @@
 package com.pocket.invoiceapp.register.repository
 
-class RegisterRepository {
+import com.pocket.invoiceapp.base.BaseRepository
+
+class RegisterRepository : BaseRepository() {
+
 }

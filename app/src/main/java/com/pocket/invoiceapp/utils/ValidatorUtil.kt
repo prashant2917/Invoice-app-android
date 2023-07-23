@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 class ValidatorUtil {
     companion object {
         private const val PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$"
 
         fun isValidName(name: String): Boolean {
             return name.length > 4

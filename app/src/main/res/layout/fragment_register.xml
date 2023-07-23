@@ -5,13 +5,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:fillViewport="true">
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:orientation="vertical"
+           android:layout_marginTop="@dimen/dimen_70"
             android:padding="@dimen/dimen_16">
 
 

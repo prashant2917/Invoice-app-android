@@ -14,7 +14,8 @@
     <!--error messages-->
     <string name="error_invalid_name">Name should be greater than 3 characters</string>
     <string name="error_invalid_email">Please enter valid email</string>
-    <string name="error_invalid_password">Password should be atleast 6 character long and must contains 1 Uppercase, 1 lowercase, and 1 special symbol</string>
+    <string name="error_invalid_password">Password should be atleast 6 character long and must contains atleast 1 Uppercase, 1 lowercase, and 1 special symbol</string>
+    <string name="error_both_password">Both Password and confirm password are not matching</string>
 
 
 </resources>

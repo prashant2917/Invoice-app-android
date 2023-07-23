@@ -1,2 +1,4 @@
-package com.pocket.invoiceapp.base;public class BaseRepository {
+package com.pocket.invoiceapp.base;
+
+open  class BaseRepository {
 }

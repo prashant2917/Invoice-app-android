@@ -1,6 +1,8 @@
 package com.pocket.invoiceapp.login.data
 
- class User {
- var username: String =""
- var password:String =""
+import com.pocket.invoiceapp.base.BaseUser
+
+class LoginUser: BaseUser() {
+ override var name: String =""
+ override var password:String =""
 }
