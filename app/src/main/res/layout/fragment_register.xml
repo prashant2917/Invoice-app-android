@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,16 +12,27 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_70"
             android:orientation="vertical"
-           android:layout_marginTop="@dimen/dimen_70"
-            android:padding="@dimen/dimen_16">
+            android:padding="@dimen/dimen_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_size_14"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_input_name"
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:hint="@string/enter_name"
                 android:minWidth="@dimen/dimen_488"
                 android:minHeight="@dimen/dimen_50">
@@ -29,11 +41,11 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="true"
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="@dimen/dimen_8"
                     android:inputType="textPersonName"
                     android:padding="@dimen/dimen_12"
-                    android:cursorVisible="true"
                     android:textSize="@dimen/text_size_14">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -44,6 +56,7 @@
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_10"
                 android:hint="@string/enter_email"
                 android:minWidth="@dimen/dimen_488"
                 android:minHeight="@dimen/dimen_50">
@@ -52,11 +65,11 @@
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="true"
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="@dimen/dimen_8"
                     android:inputType="textEmailAddress"
                     android:padding="@dimen/dimen_12"
-                    android:cursorVisible="true"
                     android:textSize="@dimen/text_size_14">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -79,11 +92,11 @@
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="true"
                     android:drawableStart="@android:drawable/ic_secure"
                     android:drawablePadding="@dimen/dimen_8"
                     android:inputType="textPassword"
                     android:padding="@dimen/dimen_12"
-                    android:cursorVisible="true"
 
                     android:textSize="@dimen/text_size_14">
 
@@ -100,22 +113,22 @@
                 android:minWidth="@dimen/dimen_488"
                 android:minHeight="@dimen/dimen_50"
                 app:passwordToggleEnabled="true"
-
                 app:passwordToggleTint="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:cursorVisible="true"
                     android:drawableStart="@android:drawable/ic_secure"
                     android:drawablePadding="@dimen/dimen_8"
                     android:inputType="textPassword"
                     android:padding="@dimen/dimen_12"
-                    android:cursorVisible="true"
                     android:textSize="@dimen/text_size_14">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_submit"
@@ -130,6 +143,16 @@
 
             </com.google.android.material.button.MaterialButton>
 
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:visibility="gone" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+
     </ScrollView>
 </layout>

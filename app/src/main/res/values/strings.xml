@@ -4,18 +4,29 @@
     <!-- Strings used for fragments for navigation -->
     <string name="login_fragment_label">Login</string>
     <string name="register_fragment_label">Register</string>
+    <string name="home_fragment_label">Home</string>
+
     <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="enter_name">Enter Name</string>
     <string name="submit">Submit</string>
     <string name="signup">New user? Register here</string>
+    <string name="sign_out">Sign Out</string>
 
     <!--error messages-->
-    <string name="error_invalid_name">Name should be greater than 3 characters</string>
+    <string name="error_invalid_name">Name should be atleast 3 characters long</string>
     <string name="error_invalid_email">Please enter valid email</string>
     <string name="error_invalid_password">Password should be atleast 6 character long and must contains atleast 1 Uppercase, 1 lowercase, and 1 special symbol</string>
+    <string name="error_invalid_confirm_password"> Confirm Password should be atleast 6 character long and must contains atleast 1 Uppercase, 1 lowercase, and 1 special symbol</string>
     <string name="error_both_password">Both Password and confirm password are not matching</string>
+    <string name="error_logout_failure">Logout fail, unable to Logout</string>
+
+
+    <!--success message-->
+    <string name="user_registration_success">User Registered Successfully</string>
+    <string name="user_login_success">User Log in Successfully</string>
+    <string name="user_logout_success">User Log Out Successfully</string>
 
 
 </resources>
