@@ -22,11 +22,10 @@ class LoginFragment : BaseFragment() {
 
     private var _binding: FragmentLoginBinding? = null
 
-    private val viewModel : AuthViewModel by activityViewModels()
-    private val validationViewModel : ValidationViewModel by  activityViewModels ()
-    private val  LOG_TAG = LoginFragment::class.java.name
+    private val viewModel: AuthViewModel by activityViewModels()
+    private val validationViewModel: ValidationViewModel by activityViewModels()
+    private val LOG_TAG = LoginFragment::class.java.name
     private val binding get() = _binding!!
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,12 +46,13 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.etEmail.addTextChangedListener(EditTextWatcher(binding.textInputEmail))
         binding.etPassword.addTextChangedListener(EditTextWatcher(binding.textInputPassword))
-       // viewModel.getCurrentUser()
+        // viewModel.getCurrentUser()
+        showToolbar()
         listenToValidatorChannel()
-         listenToAuthenticatorChannel()
+        listenToAuthenticatorChannel()
         registerObservers()
         binding.btnSubmit.setOnClickListener {
-          //hideSoftKeyboard(view)
+            //hideSoftKeyboard(view)
             val loginUser = LoginUser()
             loginUser.apply {
                 this.email = binding.etEmail.text.toString()
@@ -65,7 +65,12 @@ class LoginFragment : BaseFragment() {
 
             navController.navigate(R.id.action_login_fragment_to_register_fragment)
         }
+
+        addBackPressCallback()
+
+
     }
+
 
     private fun listenToValidatorChannel() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -125,18 +130,11 @@ class LoginFragment : BaseFragment() {
     }
 
 
-
     override fun registerObservers() {
-     /* viewModel.currentUser.observe(viewLifecycleOwner) { firebaseUser ->
-          if (firebaseUser == null) {
-                showToast("User is not login")
-          }
-          else {
-              showToast("User is  login")
-          }
-      }*/
+
     }
-    private fun bindMessageToTextInputLayout(message :String) {
+
+    private fun bindMessageToTextInputLayout(message: String) {
         when (message) {
 
             activity?.getString(R.string.error_invalid_email) -> {

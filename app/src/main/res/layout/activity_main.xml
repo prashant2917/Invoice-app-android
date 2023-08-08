@@ -9,8 +9,11 @@
     tools:context=".mainapp.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:background="@drawable/gradient_drawable"
         android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -18,7 +21,6 @@
             android:layout_width="match_parent"
             app:titleTextColor="@color/white"
             app:titleCentered="true"
-            app:navigationIcon="@drawable/arrow_back"
             android:layout_height="?attr/actionBarSize" />
 
     </com.google.android.material.appbar.AppBarLayout>

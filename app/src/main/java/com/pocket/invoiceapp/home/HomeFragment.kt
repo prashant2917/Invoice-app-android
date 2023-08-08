@@ -72,9 +72,16 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        registerObservers()
+        showToolbar()
+        addBackPressCallback()
         binding.btnSignOut.setOnClickListener {
             viewModel.signOut()
         }
-        registerObservers()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
