@@ -20,7 +20,10 @@ abstract class BaseFragment : Fragment() {
     open lateinit var navController: NavController
 
 
-    open abstract fun registerObservers()
+    abstract fun observeLiveData()
+    abstract fun setUpListeners()
+
+    abstract fun setUpUI()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

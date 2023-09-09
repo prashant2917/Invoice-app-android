@@ -1,30 +1,28 @@
 package com.pocket.invoiceapp.register.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-
 import com.pocket.invoiceapp.R
-import com.pocket.invoiceapp.authenticator.AuthViewModel
-import com.pocket.invoiceapp.authenticator.AuthenticatorEvent
 import com.pocket.invoiceapp.base.BaseFragment
+import com.pocket.invoiceapp.base.InvoiceUser
+import com.pocket.invoiceapp.blogger.Blogger
 import com.pocket.invoiceapp.databinding.FragmentRegisterBinding
 import com.pocket.invoiceapp.intefaces.EditTextWatcher
-import com.pocket.invoiceapp.register.data.RegisterUser
-
+import com.pocket.invoiceapp.register.event.RegisterEvents
+import com.pocket.invoiceapp.register.viewmodel.RegisterViewModel
 import com.pocket.invoiceapp.validator.ValidationEvents
 import com.pocket.invoiceapp.validator.ValidationViewModel
-import kotlinx.coroutines.launch
 
 
 class RegisterFragment : BaseFragment() {
 
     private var _binding: FragmentRegisterBinding? = null
-    private val viewModel: AuthViewModel by activityViewModels()
     private val validationViewModel: ValidationViewModel by activityViewModels()
+    private val registerViewModel: RegisterViewModel by activityViewModels()
     private val LOG_TAG = RegisterFragment::class.java.name
 
 
@@ -44,90 +42,105 @@ class RegisterFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpUI()
+        setUpListeners()
+        observeLiveData()
 
-        binding.etName.addTextChangedListener(EditTextWatcher(binding.textInputName))
-        binding.etEmail.addTextChangedListener(EditTextWatcher(binding.textInputEmail))
-        binding.etPassword.addTextChangedListener(EditTextWatcher(binding.textInputPassword))
-        binding.etConfirmPassword.addTextChangedListener(EditTextWatcher(binding.textInputConfirmPassword))
-        listenToValidatorChannel()
-        listenToAuthenticatorChannel()
 
+    }
+
+    private fun observeValidationLiveData()  {
+        validationViewModel.validationLiveData.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is ValidationEvents.SendErrorMessage -> {
+
+                    bindMessageToTextInputLayout(event.message)
+                }
+
+                is ValidationEvents.Success -> {
+                    val user = event.user
+
+                   binding.progressBar.visibility = View.VISIBLE
+                    registerViewModel.registerUserInDatabase(user)
+                }
+
+            }
+        }
+    }
+
+
+
+    private fun observeRegistrationLiveData()  {
+        /*registerViewModel.registerLiveData.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is RegisterEvents.Loading -> {
+                    Log.d(LOG_TAG, "${event.isLoading}")
+                    if (event.isLoading) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
+
+                is RegisterEvents.Success -> {
+                    Log.d(LOG_TAG, "success")
+                    showToast(requireContext().getString(R.string.user_registration_success))
+                    navController.navigate(R.id.action_register_fragment_to_login_fragment)
+                }
+
+                is RegisterEvents.Error -> {
+                    Log.d(LOG_TAG, "failure ${event.error}")
+                    showToast(event.error)
+                }
+
+            }
+
+        }
+*/
+
+        registerViewModel.registerLiveData.observe(viewLifecycleOwner) { registerUserEntity ->
+            binding.progressBar.visibility = View.GONE
+            if(registerUserEntity.isError) {
+               Blogger.error(message = "error occurred ${registerUserEntity.message}")
+           }
+            else {
+                Blogger.debug(message = "user register successfully")
+
+                navController.navigate(R.id.action_register_fragment_to_login_fragment)
+           }
+            registerUserEntity.message?.let { showToast(it) }
+
+        }
+
+
+    }
+
+    override fun observeLiveData() {
+        observeValidationLiveData()
+       // observeAuthenticatorLiveData()
+        observeRegistrationLiveData()
+    }
+
+    override fun setUpListeners() {
         binding.btnSubmit.setOnClickListener {
             hideSoftKeyboard(it)
-            val registerUser = RegisterUser()
-            registerUser.apply {
+            val user = InvoiceUser()
+            user.apply {
                 this.name = binding.etName.text.toString()
                 this.email = binding.etEmail.text.toString()
                 this.password = binding.etPassword.text.toString()
                 this.confirmPassword = binding.etConfirmPassword.text.toString()
 
             }
-            validationViewModel.doRegistrationValidation(registerUser)
-
-
+            validationViewModel.doRegistrationValidation(user)
         }
     }
 
-    private fun listenToValidatorChannel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            validationViewModel.validationEventsFlow.collect { event ->
-                when (event) {
-                    is ValidationEvents.SendErrorMessage -> {
-
-                        bindMessageToTextInputLayout(event.message)
-                    }
-
-                    is ValidationEvents.Success -> {
-                        val user = event.user as RegisterUser
-
-                        viewModel.signUpUser(user.email, user.password)
-                    }
-
-                }
-            }
-
-
-        }
-    }
-
-    private fun listenToAuthenticatorChannel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.authenticatorEventsFlow.collect { event ->
-                when (event) {
-                    is AuthenticatorEvent.Loading -> {
-                        if (event.isLoading) {
-                            binding.progressBar.visibility = View.VISIBLE
-                        } else {
-                            binding.progressBar.visibility = View.GONE
-                        }
-
-                    }
-
-                    is AuthenticatorEvent.Error -> {
-                        if (event.errorMessage.isEmpty()) {
-                            binding.tvError.visibility = View.GONE
-                        } else {
-                            binding.tvError.visibility = View.VISIBLE
-                            binding.tvError.text = event.errorMessage
-                        }
-                    }
-
-                    is AuthenticatorEvent.Success -> {
-                        showToast(event.message)
-                        navController.navigate(R.id.action_register_fragment_to_login_fragment)
-                    }
-
-                    is AuthenticatorEvent.SignOut -> {
-
-
-                    }
-                }
-            }
-        }
-    }
-
-    override fun registerObservers() {
-        TODO("Not yet implemented")
+    override fun setUpUI() {
+        binding.etName.addTextChangedListener(EditTextWatcher(binding.textInputName))
+        binding.etEmail.addTextChangedListener(EditTextWatcher(binding.textInputEmail))
+        binding.etPassword.addTextChangedListener(EditTextWatcher(binding.textInputPassword))
+        binding.etConfirmPassword.addTextChangedListener(EditTextWatcher(binding.textInputConfirmPassword))
     }
 
     private fun bindMessageToTextInputLayout(message: String) {

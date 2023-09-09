@@ -1,7 +1,7 @@
 package com.pocket.invoiceapp.validator
 
 import android.util.Patterns
-import com.pocket.invoiceapp.utils.PASSWORD_PATTERN
+import com.pocket.invoiceapp.utils.Constants
 import java.util.regex.Pattern
 import javax.inject.Singleton
 
@@ -20,7 +20,7 @@ class Validator {
 
     fun isValidPassword(password: String): Boolean {
 
-        return Pattern.compile(PASSWORD_PATTERN).matcher(password).matches()
+        return Pattern.compile(Constants.PASSWORD_PATTERN).matcher(password).matches()
 
 
     }

@@ -2,14 +2,12 @@ package com.pocket.invoiceapp.mainapp
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.pocket.invoiceapp.R
-import com.pocket.invoiceapp.authenticator.AuthViewModel
 import com.pocket.invoiceapp.base.BaseActivity
 import com.pocket.invoiceapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +19,7 @@ class MainActivity : BaseActivity() {
     private lateinit var navController: NavController
     private val LOG_TAG = MainActivity::class.java.name
 
-    private val viewModel: AuthViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)

@@ -34,5 +34,7 @@
     <string name="user_login_success">User Log in Successfully</string>
     <string name="user_logout_success">User Log Out Successfully</string>
 
+    <!--failure message-->
+    <string name="user_registration_Failed">User registration failed</string>
 
 </resources>
