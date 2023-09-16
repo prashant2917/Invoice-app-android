@@ -1,6 +1,8 @@
 package com.pocket.invoiceapp.login.presentation
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +11,6 @@ import com.pocket.invoiceapp.R
 import com.pocket.invoiceapp.base.BaseFragment
 import com.pocket.invoiceapp.base.InvoiceUser
 import com.pocket.invoiceapp.databinding.FragmentLoginBinding
-import com.pocket.invoiceapp.intefaces.EditTextWatcher
-import com.pocket.invoiceapp.validator.ValidationEvents
 import com.pocket.invoiceapp.validator.ValidationViewModel
 
 
@@ -30,7 +30,7 @@ class LoginFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
@@ -39,19 +39,16 @@ class LoginFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       setUpUI()
+        setUpUI()
         setUpListeners()
-
         showToolbar()
         observeLiveData()
-
         addBackPressCallback()
 
 
     }
 
     override fun observeLiveData() {
-        observeValidationLiveData()
 
 
     }
@@ -64,7 +61,7 @@ class LoginFragment : BaseFragment() {
                 this.email = binding.etEmail.text.toString()
                 this.password = binding.etPassword.text.toString()
             }
-            validationViewModel.doLoginValidation(loginUser)
+
         }
 
         binding.btnSignup.setOnClickListener {
@@ -73,44 +70,75 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun setUpUI() {
-        binding.etEmail.addTextChangedListener(EditTextWatcher(binding.textInputEmail))
-        binding.etPassword.addTextChangedListener(EditTextWatcher(binding.textInputPassword))
+        binding.etEmail.addTextChangedListener(emailTextWatcher)
+        binding.etPassword.addTextChangedListener(passwordTextWatcher)
+
     }
 
-    private fun observeValidationLiveData()  {
-        validationViewModel.validationLiveData.observe(viewLifecycleOwner) { event ->
-            when (event) {
-                is ValidationEvents.SendErrorMessage -> {
 
-                    bindMessageToTextInputLayout(event.message)
+    private val emailTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (binding.textInputEmail.isErrorEnabled) {
+                binding.textInputEmail.error = null
+            }
+            if(binding.textInputEmail.hasFocus()) {
+                val result = validationViewModel.isValidEmail(binding.etEmail.text.toString())
+                if (!result.first) {
+                    binding.textInputEmail.error = result.second
+                    validationViewModel.isEmailValid = false
+                } else {
+                    validationViewModel.isEmailValid = true
+                    binding.textInputEmail.error = null
                 }
 
-                is ValidationEvents.Success -> {
-                    val user = event.user
+            }
+            setSubmitEnabled()
+        }
 
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+    }
+
+    private val passwordTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (binding.textInputPassword.isErrorEnabled) {
+                binding.textInputPassword.error = null
+            }
+            if(binding.textInputPassword.hasFocus()) {
+                val result = validationViewModel.isValidPassword(binding.etPassword.text.toString())
+                if (!result.first) {
+                    binding.textInputPassword.error = result.second
+                    validationViewModel.isPasswordValid = false
+                } else {
+                    validationViewModel.isPasswordValid = true
+                    binding.textInputPassword.error = null
 
                 }
 
             }
+            setSubmitEnabled()
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+
         }
     }
 
 
+    private fun setSubmitEnabled() {
+        binding.isSubmitButtonEnabled =
+            validationViewModel.isEmailValid && validationViewModel.isPasswordValid
 
 
-
-
-    private fun bindMessageToTextInputLayout(message: String) {
-        when (message) {
-            activity?.getString(R.string.error_invalid_email) -> {
-                binding.textInputEmail.error = activity?.getString(R.string.error_invalid_email)
-            }
-            activity?.getString(R.string.error_invalid_password) -> {
-                binding.textInputPassword.error =
-                    activity?.getString(R.string.error_invalid_password)
-            }
-
-        }
     }
 
     override fun onDestroyView() {
