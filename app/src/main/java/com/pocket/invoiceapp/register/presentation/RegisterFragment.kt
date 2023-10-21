@@ -57,14 +57,18 @@ class RegisterFragment : BaseFragment() {
           it.getContentIfNotHandled().let {registerUserEntity ->
 
               binding.progressBar.visibility = View.GONE
-              if (registerUserEntity?.isError == true) {
-                  Blogger.error(message = "error occurred ${registerUserEntity.message}")
-              } else {
-                  Blogger.debug(message = "user register successfully")
-                  validationViewModel.clearData()
-                  navController.navigate(R.id.action_register_fragment_to_login_fragment)
-              }
+
+                  if( registerUserEntity?.isError ==true) {
+                      Blogger.error(message = "error occurred ${registerUserEntity?.message}")
+                  }
+                  else {
+                      Blogger.debug(message = "user register successfully")
+                      validationViewModel.clearData()
+                      navController.navigate(R.id.action_register_fragment_to_login_fragment)
+                  }
+
               registerUserEntity?.message?.let { showToast(it) }
+
           }
 
 

@@ -13,6 +13,8 @@ import com.pocket.invoiceapp.utils.InvoiceAppSecurity
 import com.pocket.invoiceapp.utils.mapResponseToRegisterEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,11 +25,17 @@ class RegisterViewModel @Inject constructor(
     private val _registerLiveData = MutableLiveData<SingleLiveEvent<RegisterUserEntity>>()
 
 
-    fun registerUserInDatabase(user: InvoiceUser)  {
+    fun registerUserInDatabase(user: InvoiceUser) {
         disposable?.dispose()
-        disposable = useCase.registerUserInDatabase(user).subscribe { responseData  ->
-            _registerLiveData.postValue(SingleLiveEvent(responseData.mapResponseToRegisterEntity()))
-        }
+     /* disposable= useCase.registerUserInDatabase(user).subscribe { responseData  ->
+
+            _registerLiveData.value =SingleLiveEvent(responseData.mapResponseToRegisterEntity())
+        }*/
+
+        useCase.registerUserInDatabase(user).subscribe { responseData ->
+
+        }.dispose()
+
         disposable?.let { addDisposable(it) }
 
     }
